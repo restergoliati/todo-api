@@ -1,19 +1,91 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\TodoController;
+use App\Http\Controllers\Api\V1\JobController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+Route::prefix('v1')->group(function () {
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    /*
+    |--------------------------------------------------------------------------
+    | Public
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('auth')->group(function () {
+        Route::post(
+            '/register',
+            [AuthController::class, 'register']
+        );
+
+        Route::post(
+            '/login',
+            [AuthController::class, 'login']
+        );
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Protected
+    |--------------------------------------------------------------------------
+    */
+
+    Route::middleware('auth:api')->group(function () {
+
+        Route::get(
+            '/profile',
+            [AuthController::class, 'profile']
+        );
+
+        Route::post(
+            '/todos/bulk-complete',
+            [TodoController::class, 'bulkComplete']
+        );
+
+        Route::apiResource(
+            'todos',
+            TodoController::class
+        )->except([
+            'create',
+            'edit',
+        ]);
+
+        Route::get(
+            '/jobs/{id}',
+            [JobController::class, 'show']
+        );
+    });
+
+
+//     Route::middleware('auth:api')->group(function () {
+
+//         Route::get(
+//             '/profile',
+//             [AuthController::class, 'profile']
+//         );
+
+//         Route::post(
+//             '/todos/bulk-complete',
+//             [TodoController::class, 'bulkComplete']
+//         );
+
+//         Route::apiResource(
+//             'todos',
+//             TodoController::class
+//         )->except([
+//             'create',
+//             'edit',
+//         ]);
+
+//         Route::post(
+//             '/todos/bulk-complete',
+//             [TodoController::class, 'bulkComplete']
+//         );
+
+//         Route::get(
+//             '/jobs/{id}',
+//             [JobController::class, 'show']
+//         );
+//     });
 });
