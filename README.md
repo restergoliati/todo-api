@@ -141,7 +141,7 @@ Import the collection into Postman to explore and test the API endpoints.
 
 1. Open Postman.
 2. Select **Import**.
-3. Select `docs/postman/Todo-API.postman_collection.json` from the cloned repository.
+3. Select `docs/postman/todo_api_postman_collection.json` from the cloned repository.
 4. Set the base URL to `http://localhost:8000/api/v1`.
 5. Register or log in to obtain a JWT.
 6. Include the JWT when testing authenticated endpoints.
