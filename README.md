@@ -11,6 +11,7 @@ A production-style Laravel REST API for managing users and user-scoped todo item
 - **Containerization:** Docker Compose
 - **Authentication:** JWT
 - **Testing:** PHPUnit
+- **API Testing:** Postman
 
 ## Architecture
 
@@ -39,6 +40,7 @@ Ensure the following tools are installed:
 - Docker
 - Docker Compose
 - Git
+- Postman (optional, for API testing)
 
 ## Getting Started
 
@@ -127,6 +129,25 @@ Obtain a JWT by calling the login endpoint. Include the token in the `Authorizat
 Authorization: Bearer <your-jwt-token>
 ```
 
+## Postman Collection
+
+The Postman collection is intended to be stored in the repository at:
+
+`postman/Todo-API.postman_collection.json`
+
+Import the collection into Postman to explore and test the API endpoints.
+
+### Import Instructions
+
+1. Open Postman.
+2. Select **Import**.
+3. Select `docs/postman/Todo-API.postman_collection.json` from the cloned repository.
+4. Set the base URL to `http://localhost:8000/api/v1`.
+5. Register or log in to obtain a JWT.
+6. Include the JWT when testing authenticated endpoints.
+
+**Note:** The path above assumes the collection is saved in the `docs/postman/` directory. Adjust it if the collection is stored elsewhere in the repository.
+
 ## Asynchronous Job Processing
 
 Redis is configured as the Laravel queue driver. Bulk todo completion is dispatched as an asynchronous operation, allowing the API to return a job identifier without waiting for the entire operation to finish.
@@ -175,7 +196,7 @@ docker compose exec app vendor/bin/phpunit
 - **Feature tests:** Authentication and todo API endpoints.
 - **Unit tests:** Service and repository behavior.
 
-Run the suite before submitting changes to help detect regressions.
+Run the test suite before submitting changes to help detect regressions.
 
 ## Architecture Decisions
 
@@ -254,7 +275,7 @@ If PHP runs under a different account, replace `www-data:www-data` with the appr
 
 This approach grants the application the necessary write permissions without using the insecure `chmod -R 777` workaround.
 
-> **Note:** If your application source code is bind-mounted from the host, changing ownership inside the container can also change ownership of files on the host. Verify your Docker volume configuration before applying this fix.
+> **Note:** If your application source code is bind-mounted from the host, changing ownership inside the container can also change ownership of corresponding host files. Verify your Docker volume configuration before applying this fix.
 
 #### 3. Clear Laravel's Cached Configuration
 
@@ -284,11 +305,11 @@ test -w storage/framework/cache/data \
 
 Both directories should report `writable` when checked under a user with the same permissions as the application runtime.
 
-For a more accurate check, execute the verification as the actual PHP runtime user.
+For an accurate check, run the verification as the actual PHP runtime user.
 
 #### 5. Retry the API Request
 
-Retry the previously failing request using Postman or another HTTP client.
+Retry the previously failing API request using Postman or another HTTP client.
 
 If the error persists, investigate:
 
