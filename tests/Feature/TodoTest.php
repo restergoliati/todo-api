@@ -52,6 +52,8 @@ class TodoTest extends TestCase
 
     public function test_user_can_only_see_own_todos(): void
     {
+        // $this->withoutExceptionHandling();
+        
         [$user, $token] = $this->authenticate();
 
         $otherUser = User::factory()->create();

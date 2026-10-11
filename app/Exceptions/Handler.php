@@ -11,6 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -68,6 +69,14 @@ class Handler extends ExceptionHandler
             }
 
             if ($e instanceof ModelNotFoundException) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Resource not found.',
+                    'errors' => null,
+                ], 404);
+            }
+
+            if ($e instanceof NotFoundHttpException) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Resource not found.',
