@@ -11,7 +11,7 @@ class TodoTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function authenticate(): arrays
+    private function authenticate(): array
     {
         $user = User::factory()->create();
 
