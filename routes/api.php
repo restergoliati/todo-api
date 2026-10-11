@@ -13,14 +13,26 @@ Route::prefix('v1')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::prefix('auth')->group(function () {
+    // Route::prefix('auth')->group(function () {
+    //     Route::post(
+    //         '/register',
+    //         [AuthController::class, 'register']
+    //     );
+
+    //     Route::post(
+    //         '/login',
+    //         [AuthController::class, 'login']
+    //     );
+    // });
+
+    Route::middleware('throttle:auth')->group(function () {
         Route::post(
-            '/register',
+            '/auth/register',
             [AuthController::class, 'register']
         );
 
         Route::post(
-            '/login',
+            '/auth/login',
             [AuthController::class, 'login']
         );
     });
