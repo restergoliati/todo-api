@@ -31,8 +31,6 @@ git commit -m "test: add authentication and todo feature tests"
 git add .
 git commit -m "test: add service unit tests"
 
-git add app/Models/User.php database/factories/UserFactory.php
-git commit -m "fix: enable user model factories for tests"
 
 git add .
 git commit -m "docs: add setup and API documentation"
